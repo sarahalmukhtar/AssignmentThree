@@ -5,10 +5,10 @@ var CartoDBTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{
 });
 
 map.addLayer(CartoDBTiles);
-
+/*
 L.geoJson(neighborhoods).addTo(map);
 L.geoJson(CoolRoofs).addTo(map);
-
+*/
 // Neighborhoods Chloropleth
 var populationStyle = function (feature){
 	var value = feature.properties.Pop;
@@ -44,27 +44,27 @@ var neighborhoodsGeoJSON = L.geoJson(neighborhoods, {
 
 // Cool Roofs Markers
 var CoolRoofsPointToLayer = function (feature, latlng){
-	var CoolRoofsMarker = L.circleMarker(latlng, 100, {
-
-/*
 		var value = feature.properties.TotalSF;
-		var setRadius = null;
+		var setRadius = null; 
+		//null is used so that if none of the following is true, it will register null
 		if(value >= 1000 && value <= 5500){
-			setRadius = 10;
+			setRadius = 50;
+			// color = "blue";
 		}
 		if(value > 5500 && value <= 12000){
-			setRadius = 20;
+			setRadius = 100;
 		}
 		if(value > 12000 && value <= 21250){
-			setRadius = 30;
+			setRadius = 150;
 		}
 		if(value > 21250 && value <= 40000){
-			setRadius = 40;
+			setRadius = 200;
 		}
 		if(value > 40000){
-			setRadius = 50;
+			setRadius = 250;
 		}
-*/
+
+	var CoolRoofsMarker = L.circle(latlng, setRadius, {
 	})
 
 	return CoolRoofsMarker;
