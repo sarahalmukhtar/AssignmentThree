@@ -5,6 +5,11 @@ var CartoDBTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{
 });
 
 map.addLayer(CartoDBTiles);
+
+var CartoDBDarkTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+});
+
 /*
 L.geoJson(neighborhoods).addTo(map);
 L.geoJson(CoolRoofs).addTo(map);
@@ -78,3 +83,17 @@ var CoolRoofsGeoJSON = L.geoJson(CoolRoofs, {
 	pointToLayer: CoolRoofsPointToLayer,
 	onEachFeature: CoolRoofsClick
 }).addTo(map);
+
+var baseMaps = {
+    "CartoDB Light": CartoDBTiles,
+    "CartoDB Dark": CartoDBDarkTiles,
+    "Terrain": Terrain,
+};
+
+var overlayMaps = {
+    "Cool Roofs": CoolRoofsGeoJSON,
+    "Population": neighborhoodsGeoJSON
+};
+
+// add control
+L.control.layers(baseMaps, overlayMaps).addTo(map);
