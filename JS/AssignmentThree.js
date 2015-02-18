@@ -53,30 +53,37 @@ var CoolRoofsPointToLayer = function (feature, latlng){
 		var setRadius = null; 
 		//null is used so that if none of the following is true, it will register null
 		if(value >= 1000 && value <= 5500){
-			setRadius = 50;
+			setRadius = 100;
 			// color = "blue";
 		}
 		if(value > 5500 && value <= 12000){
-			setRadius = 100;
-		}
-		if(value > 12000 && value <= 21250){
-			setRadius = 150;
-		}
-		if(value > 21250 && value <= 40000){
 			setRadius = 200;
 		}
+		if(value > 12000 && value <= 21250){
+			setRadius = 300;
+		}
+		if(value > 21250 && value <= 40000){
+			setRadius = 400;
+		}
 		if(value > 40000){
-			setRadius = 250;
+			setRadius = 500;
 		}
 
 	var CoolRoofsMarker = L.circle(latlng, setRadius, {
+		stroke: true,
+		color: '#ffffff',
+		weight: 1,
+		opacity: 1,
+		fillColor: '#000000',
+		fillOpacity: .5,
+
 	})
 
 	return CoolRoofsMarker;
 }
 
 var CoolRoofsClick = function (feature, layer) {
-	layer.bindPopup("<strong>Size:</strong> " + feature.properties.TotalSF + "<strong>SF</strong>");
+	layer.bindPopup("<strong>Size:</strong> " + feature.properties.TotalSF + " SF");
 }
 
 var CoolRoofsGeoJSON = L.geoJson(CoolRoofs, {
@@ -87,7 +94,6 @@ var CoolRoofsGeoJSON = L.geoJson(CoolRoofs, {
 var baseMaps = {
     "CartoDB Light": CartoDBTiles,
     "CartoDB Dark": CartoDBDarkTiles,
-    "Terrain": Terrain,
 };
 
 var overlayMaps = {
