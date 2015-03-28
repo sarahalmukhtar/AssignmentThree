@@ -5,6 +5,11 @@ var CartoDBTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{
 });
 
 map.addLayer(CartoDBTiles);
+
+var CartoDBDarkTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+});
+
 /*
 L.geoJson(neighborhoods).addTo(map);
 L.geoJson(CoolRoofs).addTo(map);
@@ -48,33 +53,53 @@ var CoolRoofsPointToLayer = function (feature, latlng){
 		var setRadius = null; 
 		//null is used so that if none of the following is true, it will register null
 		if(value >= 1000 && value <= 5500){
-			setRadius = 50;
+			setRadius = 100;
 			// color = "blue";
 		}
 		if(value > 5500 && value <= 12000){
-			setRadius = 100;
-		}
-		if(value > 12000 && value <= 21250){
-			setRadius = 150;
-		}
-		if(value > 21250 && value <= 40000){
 			setRadius = 200;
 		}
+		if(value > 12000 && value <= 21250){
+			setRadius = 300;
+		}
+		if(value > 21250 && value <= 40000){
+			setRadius = 400;
+		}
 		if(value > 40000){
-			setRadius = 250;
+			setRadius = 500;
 		}
 
 	var CoolRoofsMarker = L.circle(latlng, setRadius, {
+		stroke: true,
+		color: '#ffffff',
+		weight: 1,
+		opacity: 1,
+		fillColor: '#000000',
+		fillOpacity: .5,
+
 	})
 
 	return CoolRoofsMarker;
 }
 
 var CoolRoofsClick = function (feature, layer) {
-	layer.bindPopup("<strong>Size:</strong> " + feature.properties.TotalSF + "<strong>SF</strong>");
+	layer.bindPopup("<strong>Size:</strong> " + feature.properties.TotalSF + " SF");
 }
 
 var CoolRoofsGeoJSON = L.geoJson(CoolRoofs, {
 	pointToLayer: CoolRoofsPointToLayer,
 	onEachFeature: CoolRoofsClick
 }).addTo(map);
+
+var baseMaps = {
+    "CartoDB Light": CartoDBTiles,
+    "CartoDB Dark": CartoDBDarkTiles,
+};
+
+var overlayMaps = {
+    "Cool Roofs": CoolRoofsGeoJSON,
+    "Population": neighborhoodsGeoJSON
+};
+
+// add control
+L.control.layers(baseMaps, overlayMaps).addTo(map);
